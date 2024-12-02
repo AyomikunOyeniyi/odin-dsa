@@ -7,6 +7,12 @@ class HashMap {
         this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
     }
 
+    checkIndex(index, bucketsLength) {
+        if (index < 0 || index >= bucketsLength) {
+            throw new Error("Trying to access index out of bounds");
+        }
+    }
+
     hash(key) {
         let hashCode = 0;
             
@@ -18,4 +24,12 @@ class HashMap {
         return hashCode;
     } 
 
+    set (key, value) {
+
+    }
+
+    get (key) {
+        let index = this.hash(key);
+        
+    }
 }
