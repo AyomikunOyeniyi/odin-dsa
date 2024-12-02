@@ -87,6 +87,6 @@ class HashMap {
     }
 
     length() {
-
+        return this.keys.length
     }
 }
