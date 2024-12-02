@@ -1,4 +1,4 @@
-import { LinkedList, Node } from "./linkedList";
+import { LinkedList } from "./linkedList";
 
 class HashMap {
     constructor() {
@@ -29,13 +29,35 @@ class HashMap {
         let index = this.hash(key);
         //check if index is valid before proceeding
         this.checkIndex(index, this.capacity);
-        this.buckets[index].append(value);
+
+        let bucket = this.buckets[index];
+        if (bucket.contains(key)) {
+            //if the key already exists, find and update the value of the node
+            let nodeIndex = bucket.find(key);
+            let node = bucket.at(nodeIndex);
+            node.value = value;
+        }
+        bucket.append(key, value);
     }
 
     get (key) {
         let index = this.hash(key);
         //check if index is valid before proceeding
         this.checkIndex(index, this.capacity);
+        
+        let bucket = this.buckets[index];
+        if (bucket.contains(key)) {
+            //if the key exists, find the node and return its value
+            let nodeIndex = bucket.find(key);
+            let node = bucket.at(nodeIndex);
 
+            return node.value;
+        }
+
+        return null;
+    }
+
+    has(key) {
+        let index = this.hash(key)
     }
 }
