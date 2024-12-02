@@ -67,6 +67,16 @@ class HashMap {
     }
 
     remove(key) {
-        
+        let index = this.hash(key);
+        //check if index is valid before proceeding
+        this.checkIndex(index, this.capacity);
+
+        let bucket = this.buckets[index];
+        if (bucket.contains(key)) {
+            let nodeIndex = bucket.find(key);
+            bucket.removeNode(nodeIndex);
+        }
+
+        return false;
     }
 }
