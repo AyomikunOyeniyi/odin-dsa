@@ -97,6 +97,33 @@ export class LinkedList {
         return null;
     }
 
+    removeNode(index) {
+        let count = 0;
+        let current = this.head;
+        let previous;
+
+        while (current !== null) {
+            if (count === index) {
+                //check if the node to be removed is the head and handle the edge case
+                if (current === this.head) {
+                    this.head = current.nextNode;
+                    current = null;
+                    return true;
+                }
+
+                previous.nextNode = current.nextNode;
+                current = null;
+                return true;
+            }
+
+            previous = current;
+            current = current.nextNode;
+            count++;
+        }
+
+        return false;
+    }
+    
     toString() {
         let result = `( ${this.head.value} ) -> `;
 
