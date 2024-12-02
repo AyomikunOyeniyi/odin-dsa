@@ -89,4 +89,10 @@ class HashMap {
     length() {
         return this.keys.length
     }
+
+    clear() {
+        this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
+        this.keys = [];
+    }
+    
 }
