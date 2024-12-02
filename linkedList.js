@@ -4,8 +4,8 @@ export class LinkedList {
         this.tail = null;
     }
 
-    append(value) {
-        let newNode = new Node(value);
+    append(key, value) {
+        let newNode = new Node(key, value);
 
         if (!this.head) {
             this.head = newNode;
@@ -17,8 +17,8 @@ export class LinkedList {
         this.tail = newNode;
     }
 
-    prepend(value) {
-        let newNode = new Node(value);
+    prepend(key, value) {
+        let newNode = new Node(key, value);
 
         if (!this.head) {
             this.head = newNode;
@@ -69,11 +69,11 @@ export class LinkedList {
         this.tail = null;
     }
 
-    contains(value) {
+    contains(key) {
         let current = this.head;
 
         while (current !== null) {
-            if (current.value === value) {
+            if (current.key === key) {
                 return true;
             }
             current = current.nextNode;
@@ -112,8 +112,9 @@ export class LinkedList {
     }
 }
 
-export class Node {
-    constructor (value, nextNode) {
+class Node {
+    constructor (key, value, nextNode) {
+        this.key = key ?? null;
         this.value = value ?? null;
         this.nextNode = nextNode ?? null;
     }
