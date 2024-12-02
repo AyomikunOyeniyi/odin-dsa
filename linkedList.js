@@ -82,12 +82,12 @@ export class LinkedList {
         return false;
     }
 
-    find(value) {
+    find(key) {
         let count = 0;
         let current = this.head;
 
         while (current !== null) {
-            if (current.value === value) {
+            if (current.key === key) {
                 return count;
             }
             current = current.nextNode;
