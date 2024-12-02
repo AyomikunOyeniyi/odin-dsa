@@ -58,6 +58,15 @@ class HashMap {
     }
 
     has(key) {
-        let index = this.hash(key)
+        let index = this.hash(key);
+        //check if index is valid before proceeding
+        this.checkIndex(index, this.capacity);
+
+        let bucket = this.buckets[index];
+        return bucket.contains(key);
+    }
+
+    remove(key) {
+        
     }
 }
