@@ -7,6 +7,7 @@ class HashMap {
         this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
     }
 
+    //function to check if index is in the bucket (valid)
     checkIndex(index, bucketsLength) {
         if (index < 0 || index >= bucketsLength) {
             throw new Error("Trying to access index out of bounds");
@@ -25,11 +26,16 @@ class HashMap {
     } 
 
     set (key, value) {
-
+        let index = this.hash(key);
+        //check if index is valid before proceeding
+        this.checkIndex(index, this.capacity);
+        this.buckets[index].append(value);
     }
 
     get (key) {
         let index = this.hash(key);
-        
+        //check if index is valid before proceeding
+        this.checkIndex(index, this.capacity);
+
     }
 }
