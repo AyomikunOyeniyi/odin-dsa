@@ -97,10 +97,10 @@ class HashMap {
     }
 
     keys() {
-        return this.keys;
+        return this.entries.map((pair) => pair[0]);
     }
 
     values() {
-        return this.values;
+        return this.entries.map((pair) => pair[1]);
     }
 }
