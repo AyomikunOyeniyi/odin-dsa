@@ -1,16 +1,17 @@
-import { LinkedList } from "./linkedList";
+import { LinkedList } from "./linkedList.js";
 
 class HashMap {
     constructor(capacity, loadFactor) {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
-        this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
+        this.buckets = Array.from({ length: this.capacity }, () => new LinkedList());
         this.entries = []; //array to keep track of key value pairs
     }
 
     //function to check if index is in the bucket (valid)
-    checkIndex(index, bucketsLength) {
-        if (index < 0 || index >= bucketsLength) {
+    checkIndex(index) {
+        console.log('checking the index');
+        if (index < 0 || index >= this.capacity) {
             throw new Error("Trying to access index out of bounds");
         }
     }
@@ -32,6 +33,7 @@ class HashMap {
     }
 
     growBuckets() {
+        //copy the entries, clear the buckets and increase the size
         let oldEntries = this.entries.map((pairs) => [...pairs]);
         this.clear();
 
@@ -41,11 +43,15 @@ class HashMap {
 
     set (key, value) {
         let index = this.hash(key);
+        console.log(this.hash('moon'))
         //check if index is valid before proceeding
-        this.checkIndex(index, this.capacity);
+        this.checkIndex(index);
 
         let bucket = this.buckets[index];
+        console.log(index);
+        console.log(`Bucket: ${bucket}`);
         if (bucket.contains(key)) {
+            // console.log(`Key ${key} already exists! Updating value.`);
             //if the key already exists, find and update the value of the node
             let nodeIndex = bucket.find(key);
             let node = bucket.at(nodeIndex);
@@ -55,20 +61,25 @@ class HashMap {
             let pairIndex = this.entries.findIndex((element) => element[0] === key);
             this.entries[pairIndex][1] = value;
         } else {
-            bucket.append(key, value);
+            // console.log(`Key ${key} doesn't exist. Appending new key.`);
             //add the key value pair to the entries array
             this.entries.push([key, value]);
+
+            if (this.entries.length > this.checkBucketSize()) {
+                this.growBuckets();
+                console.log('Growing...');
+            }
+
+            bucket.append(key, value);
         }
         
-        if (this.checkBucketSize() > this.capacity) {
-            this.growBuckets();
-        }
+        
     }
 
     get (key) {
         let index = this.hash(key);
         //check if index is valid before proceeding
-        this.checkIndex(index, this.capacity);
+        this.checkIndex(index);
         
         let bucket = this.buckets[index];
         if (bucket.contains(key)) {
@@ -104,13 +115,14 @@ class HashMap {
             //find the index of the key value pair in entries and remove the pair
             let pairIndex = this.entries.findIndex((element) => element[0] === key);
             this.entries.splice(pairIndex, 1);
+            return true;
         }
 
         return false;
     }
 
     length() {
-        return this.keys.length
+        return this.entries.length
     }
 
     clear() {
@@ -126,7 +138,29 @@ class HashMap {
         return this.entries.map((pair) => pair[1]);
     }
     
-    entries() {
+    getEntries() {
         return this.entries;
     }
 }
+
+const test = new HashMap(16, 0.75);
+ test.set('apple', 'red')
+ test.set('banana', 'yellow')
+ test.set('carrot', 'orange')
+ test.set('dog', 'brown')
+ test.set('elephant', 'gray')
+ test.set('frog', 'green')
+ test.set('grape', 'purple')
+ test.set('hat', 'black')
+ test.set('ice cream', 'white')
+ test.set('jacket', 'blue')
+ test.set('kite', 'pink')
+ test.set('lion', 'golden')
+ test.set('moon', 'silver')
+//  test.set('moon', 'black')
+// test.set('random', 'stuff')
+// test.set('please', 'grow')
+// test.set('joor', 'nau')
+// console.log(test.hash('moon'));
+// console.log(test.entries);
+// console.log(test.buckets);
