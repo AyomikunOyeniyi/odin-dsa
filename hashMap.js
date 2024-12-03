@@ -5,7 +5,7 @@ class HashMap {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
         this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
-        this.keys = []; //array to store keys
+        this.entries = []; //array to keep track of key value pairs
     }
 
     //function to check if index is in the bucket (valid)
@@ -38,8 +38,8 @@ class HashMap {
             let node = bucket.at(nodeIndex);
             node.value = value;
         }
-        //add the key to the keys array
-        this.keys.push(key);
+        //add the key value pair to the entries array
+        this.entries.push([key, value]);
         bucket.append(key, value);
     }
 
@@ -77,10 +77,11 @@ class HashMap {
         let bucket = this.buckets[index];
         if (bucket.contains(key)) {
             let nodeIndex = bucket.find(key);
-            //find the index of the key in the keys array, then remove it
-            let keyIndex = this.keys.findIndex((element) => element === key);
-            this.keys.splice(keyIndex, 1);
             bucket.removeNode(nodeIndex);
+
+            //find the index of the key value pair in entries and remove the pair
+            let pairIndex = this.entries.findIndex((element) => element[0] === key);
+            this.entries.splice(pairIndex, 1);
         }
 
         return false;
@@ -97,5 +98,9 @@ class HashMap {
 
     keys() {
         return this.keys;
+    }
+
+    values() {
+        return this.values;
     }
 }
