@@ -147,10 +147,3 @@ class Node {
     }
 }
 
-let list = new LinkedList;
-list.append(5);
-list.append(46);
-list.append(9);
-list.prepend(3);
-
-console.log(list.toString());
