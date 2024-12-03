@@ -26,6 +26,11 @@ class HashMap {
         return hashCode;
     } 
 
+    checkBucketSize() {
+        let num = this.loadFactor * this.capacity;
+        return num;
+    }
+
     set (key, value) {
         let index = this.hash(key);
         //check if index is valid before proceeding
@@ -38,9 +43,13 @@ class HashMap {
             let node = bucket.at(nodeIndex);
             node.value = value;
         }
+        
+        if (this.checkBucketSize() > this.capacity) {
+            
+        }
+        bucket.append(key, value);
         //add the key value pair to the entries array
         this.entries.push([key, value]);
-        bucket.append(key, value);
     }
 
     get (key) {
@@ -93,7 +102,7 @@ class HashMap {
 
     clear() {
         this.buckets = Array.from({ length: this.capacity }, () => new LinkedList);
-        this.keys = [];
+        this.entries = [];
     }
 
     keys() {
@@ -102,5 +111,9 @@ class HashMap {
 
     values() {
         return this.entries.map((pair) => pair[1]);
+    }
+    
+    entries() {
+        return this.entries;
     }
 }
