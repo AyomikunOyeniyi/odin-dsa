@@ -31,6 +31,14 @@ class HashMap {
         return num;
     }
 
+    growBuckets() {
+        let oldEntries = this.entries.map((pairs) => [...pairs]);
+        this.clear();
+
+        this.capacity *= 2;
+        oldEntries.forEach((pair) => this.set(pair[0], pair[1]));
+    }
+
     set (key, value) {
         let index = this.hash(key);
         //check if index is valid before proceeding
@@ -42,14 +50,19 @@ class HashMap {
             let nodeIndex = bucket.find(key);
             let node = bucket.at(nodeIndex);
             node.value = value;
+
+            //update the entry in the entries array
+            let pairIndex = this.entries.findIndex((element) => element[0] === key);
+            this.entries[pairIndex][1] = value;
+        } else {
+            bucket.append(key, value);
+            //add the key value pair to the entries array
+            this.entries.push([key, value]);
         }
         
         if (this.checkBucketSize() > this.capacity) {
-            
+            this.growBuckets();
         }
-        bucket.append(key, value);
-        //add the key value pair to the entries array
-        this.entries.push([key, value]);
     }
 
     get (key) {
