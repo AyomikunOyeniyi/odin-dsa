@@ -10,11 +10,10 @@ export class LinkedList {
         if (!this.head) {
             this.head = newNode;
             this.tail = newNode;
-            return;
+        } else {
+            this.tail.nextNode = newNode;
+            this.tail = newNode;
         }
-
-        this.tail.nextNode = newNode;
-        this.tail = newNode;
     }
 
     prepend(key, value) {
@@ -125,17 +124,22 @@ export class LinkedList {
     }
     
     toString() {
-        let result = `( ${this.head.value} ) -> `;
+        if (this.head) {
+            let result = `( ${this.head.value} ) -> `;
 
-        let current = this.head.nextNode;
+            let current = this.head.nextNode;
 
-        while (current !== null) {
-            result += `( ${current.value} ) -> `;
-            current = current.nextNode;
+            while (current !== null) {
+                result += `( ${current.value} ) -> `;
+                current = current.nextNode;
+            }
+
+            result += `null`;
+            return result;
+        } else {
+            return null;
         }
-
-        result += `null`;
-        return result;
+        
     }
 }
 

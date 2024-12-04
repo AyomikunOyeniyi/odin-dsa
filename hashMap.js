@@ -10,7 +10,6 @@ class HashMap {
 
     //function to check if index is in the bucket (valid)
     checkIndex(index) {
-        console.log('checking the index');
         if (index < 0 || index >= this.capacity) {
             throw new Error("Trying to access index out of bounds");
         }
@@ -35,23 +34,19 @@ class HashMap {
     growBuckets() {
         //copy the entries, clear the buckets and increase the size
         let oldEntries = this.entries.map((pairs) => [...pairs]);
+        this.capacity *= 2;
         this.clear();
 
-        this.capacity *= 2;
         oldEntries.forEach((pair) => this.set(pair[0], pair[1]));
     }
 
     set (key, value) {
         let index = this.hash(key);
-        console.log(this.hash('moon'))
         //check if index is valid before proceeding
         this.checkIndex(index);
 
         let bucket = this.buckets[index];
-        console.log(index);
-        console.log(`Bucket: ${bucket}`);
         if (bucket.contains(key)) {
-            // console.log(`Key ${key} already exists! Updating value.`);
             //if the key already exists, find and update the value of the node
             let nodeIndex = bucket.find(key);
             let node = bucket.at(nodeIndex);
@@ -61,19 +56,15 @@ class HashMap {
             let pairIndex = this.entries.findIndex((element) => element[0] === key);
             this.entries[pairIndex][1] = value;
         } else {
-            // console.log(`Key ${key} doesn't exist. Appending new key.`);
             //add the key value pair to the entries array
             this.entries.push([key, value]);
 
             if (this.entries.length > this.checkBucketSize()) {
                 this.growBuckets();
-                console.log('Growing...');
             }
 
             bucket.append(key, value);
         }
-        
-        
     }
 
     get (key) {
@@ -141,26 +132,18 @@ class HashMap {
     getEntries() {
         return this.entries;
     }
+
+    printBuckets() {
+    this.buckets.forEach((bucket, index) => {
+        let current = bucket.head;
+        const items = [];
+        while (current !== null) {
+            items.push(`(${current.key}: ${current.value})`);
+            current = current.nextNode;
+        }
+        console.log(`Bucket ${index}: ${items.join(' -> ') || 'Empty'}`);
+    });
 }
 
-const test = new HashMap(16, 0.75);
- test.set('apple', 'red')
- test.set('banana', 'yellow')
- test.set('carrot', 'orange')
- test.set('dog', 'brown')
- test.set('elephant', 'gray')
- test.set('frog', 'green')
- test.set('grape', 'purple')
- test.set('hat', 'black')
- test.set('ice cream', 'white')
- test.set('jacket', 'blue')
- test.set('kite', 'pink')
- test.set('lion', 'golden')
- test.set('moon', 'silver')
-//  test.set('moon', 'black')
-// test.set('random', 'stuff')
-// test.set('please', 'grow')
-// test.set('joor', 'nau')
-// console.log(test.hash('moon'));
-// console.log(test.entries);
-// console.log(test.buckets);
+}
+
