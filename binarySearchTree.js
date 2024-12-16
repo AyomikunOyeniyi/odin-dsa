@@ -16,7 +16,7 @@ class Tree {
         if (start > end) return null;
         const mid = Math.floor((start + end) / 2);
 
-        const root = array[mid];
+        const root = new Node(array[mid]);
         root.left = this.buildTree(array, start, mid - 1);
         root.right = this.buildTree(array, mid + 1, end);
 
@@ -24,13 +24,7 @@ class Tree {
     }
 }
 
-const a = new Node(1);
-const b = new Node(2);
-const c = new Node(3);
-const d = new Node(4);
-const e = new Node(5);
-const f = new Node(6);
 
-let test = [a, b, c, d, e, f];
+let test = [1, 2, 3, 4, 5, 6];
 let tree = new Tree(test);
 console.log(tree.root);
