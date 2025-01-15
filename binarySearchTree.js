@@ -42,9 +42,45 @@ class Tree {
 
         return null;
     }
+
+    insert(value) {
+        if (this.root === null) return new Node(value);
+
+        let leaf = null;
+        let current = this.root;
+
+        while (current !== null) {
+
+            leaf = current;
+            if (value > current.data) {
+                current = current.right;
+            } else if ( value < current.data) {
+                current = current.left;
+            } else {
+                return current;
+            }
+
+        }
+
+        if (value > leaf.data) {
+            leaf.right = new Node(value);
+        } else if (value < leaf.data) {
+            leaf.left = new Node(value);
+        }
+
+        return this.root;
+    }
+
+    deleteItem(value) {
+
+    }
+    
+    levelOrder(callback) {
+
+    }
 }
 
 
 let test = [1, 2, 3, 4, 5, 6];
 let tree = new Tree(test);
-console.log(tree.find(3));
+console.log(tree.insert(1.5));
