@@ -72,15 +72,77 @@ class Tree {
     }
 
     deleteItem(value) {
+        let current = this.root;
+        let leaf = null;
 
+        while (current !== null && current.data !== value) {
+            leaf = current;
+            if (value > current.data) {
+                current = current.right;
+            } else {
+                current = current.left;
+            }
+        }
+
+        //if we exit the while loop then that means current was the node we wanted or was equal to null
+        //if it was equal to null, that means we didn't find the node we wanted and can just return the root
+
+        if (current === null) {
+            return this.root;
+        }
+        
+        //if we reach this point, then current is the node we want to delete 
+        //check if it has at most one child
+        if (current.left === null || current.right === null) {
+            let newCurr = (current.left === null) ? current.right : current.left;
+
+            //if the leaf is still null, that means we never entered the while loop and the root is the node we want
+            if (leaf === null) {
+                return newCurr;
+            }
+
+            if (current === leaf.left) {
+                leaf.left = newCurr;
+            } else {
+                leaf.right = newCurr;
+            }
+        } else {
+            //if it has two children
+            let n = null;
+            let temp = current.right;
+            while (temp.left !== null) {
+                n = temp;
+                temp = temp.left;
+            }
+
+            if (n !== null) {
+                n.left = temp.right;
+            } else {
+                current.right = temp.right;
+            }
+
+            current.data = temp.data;
+        }
+
+        return this.root;
     }
     
     levelOrder(callback) {
+        if (callback === undefined) throw new Error("Add a callback function!");
+        
+        const queue = [ this.root ];
 
+        while (queue.length > 0) {
+            const current = queue.shift();
+            callback(current);
+
+            if (current.left !== null) queue.push(current.left);
+            if (current.right !== null) queue.push(current.right);
+        }
     }
 }
 
 
 let test = [1, 2, 3, 4, 5, 6];
 let tree = new Tree(test);
-console.log(tree.insert(1.5));
+console.log(tree.deleteItem(2));
