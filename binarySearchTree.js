@@ -129,7 +129,7 @@ class Tree {
     
     levelOrder(callback) {
         if (callback === undefined) throw new Error("Add a callback function!");
-        
+
         const queue = [ this.root ];
 
         while (queue.length > 0) {
@@ -140,9 +140,59 @@ class Tree {
             if (current.right !== null) queue.push(current.right);
         }
     }
+
+    preOrder() {
+        const stack = [ this.root ];
+        const ans = [];
+
+        while (stack.length > 0) {
+            const current = stack.pop();
+            ans.push(current.data);
+            // callback(current);
+
+            if (current.right !== null) stack.push(current.right);
+            if (current.left !== null) stack.push(current.left);
+        }
+        return ans;
+    }
+
+    inOrder() {
+        const stack = [];
+        const ans = [];
+        let current = this.root;
+
+        while (current !== null || stack.length > 0) {
+            while (current !== null) {
+                stack.push(current);
+                current = current.left;
+            }
+
+            current = stack.pop();
+            ans.push(current.data);
+
+            current = current.right;
+        }
+
+        return ans;
+    }
+
+    //function to better visualize the tree
+    prettyPrint(node, prefix = "", isLeft = true) {
+        if (node === null) {
+            return;
+        }
+        if (node.right !== null) {
+            this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+        if (node.left !== null) {
+            this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+    }
+
 }
 
 
 let test = [1, 2, 3, 4, 5, 6];
 let tree = new Tree(test);
-console.log(tree.deleteItem(2));
+console.log(tree.prettyPrint(tree.root));
