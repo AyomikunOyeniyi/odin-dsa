@@ -141,24 +141,24 @@ class Tree {
         }
     }
 
-    preOrder() {
+    preOrder(callback) {
+        if (callback === undefined) throw new Error("Add a callback function!");
+
         const stack = [ this.root ];
-        const ans = [];
 
         while (stack.length > 0) {
             const current = stack.pop();
-            ans.push(current.data);
-            // callback(current);
+            callback(current);
 
             if (current.right !== null) stack.push(current.right);
             if (current.left !== null) stack.push(current.left);
         }
-        return ans;
     }
 
-    inOrder() {
+    inOrder(callback) {
+        if (callback === undefined) throw new Error("Add a callback function!");
+
         const stack = [];
-        const ans = [];
         let current = this.root;
 
         while (current !== null || stack.length > 0) {
@@ -168,12 +168,10 @@ class Tree {
             }
 
             current = stack.pop();
-            ans.push(current.data);
+            callback(current);
 
             current = current.right;
         }
-
-        return ans;
     }
 
     //function to better visualize the tree
